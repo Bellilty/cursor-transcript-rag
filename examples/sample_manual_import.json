@@ -1,0 +1,69 @@
+{
+  "conversation_id": "sample-conversation-001",
+  "messages": [
+    {
+      "id": "msg-001",
+      "conversation_id": "sample-conversation-001",
+      "role": "user",
+      "content": "Can you explain how vector databases work?",
+      "timestamp": "2026-03-08T09:00:00Z",
+      "metadata": {
+        "source": "manual_import"
+      }
+    },
+    {
+      "id": "msg-002",
+      "conversation_id": "sample-conversation-001",
+      "role": "assistant",
+      "content": "Vector databases store data as high-dimensional vectors (embeddings) and enable similarity search. When you query, your query is also converted to a vector, and the database finds the most similar vectors using metrics like cosine similarity or Euclidean distance. This is perfect for semantic search, recommendation systems, and RAG applications.",
+      "timestamp": "2026-03-08T09:00:30Z",
+      "metadata": {
+        "source": "manual_import"
+      }
+    },
+    {
+      "id": "msg-003",
+      "conversation_id": "sample-conversation-001",
+      "role": "user",
+      "content": "Comment puis-je améliorer la qualité de recherche multilingue?",
+      "timestamp": "2026-03-08T09:01:00Z",
+      "metadata": {
+        "source": "manual_import",
+        "language": "fr"
+      }
+    },
+    {
+      "id": "msg-004",
+      "conversation_id": "sample-conversation-001",
+      "role": "assistant",
+      "content": "Pour améliorer la recherche multilingue, utilisez un modèle d'embedding optimisé comme BAAI/bge-m3 qui supporte plus de 100 langues. Assurez-vous aussi que votre chunking préserve le contexte linguistique et que vous normalisez le texte de manière appropriée pour chaque langue.",
+      "timestamp": "2026-03-08T09:01:45Z",
+      "metadata": {
+        "source": "manual_import",
+        "language": "fr"
+      }
+    },
+    {
+      "id": "msg-005",
+      "conversation_id": "sample-conversation-001",
+      "role": "user",
+      "content": "איך אני יכול לשפר את איכות החיפוש בעברית?",
+      "timestamp": "2026-03-08T09:02:30Z",
+      "metadata": {
+        "source": "manual_import",
+        "language": "he"
+      }
+    },
+    {
+      "id": "msg-006",
+      "conversation_id": "sample-conversation-001",
+      "role": "assistant",
+      "content": "לשיפור חיפוש בעברית, חשוב להשתמש במודל אימבדינג שתומך טוב בעברית כמו BAAI/bge-m3. כמו כן, וודא שהטקסט מנורמל כראוי תוך שמירה על תווים מיוחדים, וכי החיתוך לחלקים (chunking) משמר הקשר גם בכיוון RTL.",
+      "timestamp": "2026-03-08T09:03:00Z",
+      "metadata": {
+        "source": "manual_import",
+        "language": "he"
+      }
+    }
+  ]
+}

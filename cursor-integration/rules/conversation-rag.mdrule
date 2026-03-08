@@ -1,0 +1,30 @@
+# Conversation History RAG
+
+When the user asks about:
+- Previous discussions or conversations
+- Earlier decisions or architectural choices
+- Prior prompts or instructions
+- Historical context or past work
+- Or explicitly invokes `/rag <query>`
+
+You MUST:
+1. Call the `search_conversation_history` MCP tool with the user's query
+2. Review the retrieved context before answering
+3. Cite the conversation ID and timestamp when referencing retrieved information
+4. If no relevant results are found, state clearly "No relevant conversation history found"
+
+Do NOT:
+- Guess or fabricate past conversations
+- Rely solely on your context window for historical questions
+- Skip the MCP tool when history is clearly relevant
+
+## Examples
+
+User: "What did we decide about the database schema?"
+→ Call search_conversation_history with query "database schema decisions"
+
+User: "Show me our discussion about Hebrew text handling"
+→ Call search_conversation_history with query "Hebrew text handling"
+
+User: "/rag how did we implement the embedding provider?"
+→ Call search_conversation_history with query "embedding provider implementation"
