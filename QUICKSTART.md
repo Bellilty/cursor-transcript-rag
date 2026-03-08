@@ -101,7 +101,14 @@ Answer only from that tool.
 Query: how did we create this Cursor transcript RAG?
 ```
 
-If Cursor shows a tool call for `search_conversation_history`, the MCP integration is working.
+### Expected Success Signal
+
+✅ **What success looks like:**
+- Cursor shows MCP tool call
+- Tool name is `search_conversation_history`
+- Answer should come from history, not repo files
+
+⚠️ If Cursor searches repository files instead of calling the MCP tool, the integration is not working correctly.
 
 Alternative test queries:
 ```

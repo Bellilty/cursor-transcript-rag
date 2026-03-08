@@ -96,6 +96,13 @@ By default the project looks under:
 
 Expected transcript structure includes nested `agent-transcripts/.../*.jsonl` files.
 
+## Tested flow in Cursor
+
+1. Ingest transcripts
+2. Start MCP server
+3. Connect custom MCP in Cursor
+4. Ask Cursor to call `search_conversation_history`
+
 ## Why this exists
 
 Cursor conversations often contain useful architecture decisions, debugging context, implementation notes, and design iterations. This project is an attempt to make that history searchable locally instead of relying only on chat memory.
