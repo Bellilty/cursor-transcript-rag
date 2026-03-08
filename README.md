@@ -23,14 +23,15 @@ What works:
 - local embedding pipeline with `BAAI/bge-m3`
 - FAISS indexing
 - SQLite metadata storage
-- retrieval test scripts
+- raw retrieval test scripts
+- MCP tool integration in Cursor for conversation-history search
 - reusable project structure
 
 What does **not** work reliably yet:
 - retrieval precision is still inconsistent on raw transcript chunks
-- long-term "memory" quality is not stable enough yet
-- structured memory extraction is still being iterated on in a separate branch
-- MCP integration should be treated as experimental until retrieval quality improves further
+- results can still surface planning / summary text instead of best implementation details
+- structured memory extraction is still experimental and not merged into main
+- query quality depends heavily on phrasing
 
 ## Architecture
 
@@ -38,7 +39,7 @@ Main pieces:
 - `packages/conversation_rag/` → reusable core
 - `adapters/cursor_transcripts/` → Cursor transcript parsing
 - `scripts/` → setup / ingest / test scripts
-- `mcp-server/` → MCP server scaffold
+- `mcp-server/` → working MCP server for raw conversation-history retrieval
 - `cursor-integration/` → Cursor rule / command docs
 
 ## Default stack

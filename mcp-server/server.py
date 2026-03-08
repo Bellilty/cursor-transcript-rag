@@ -48,27 +48,47 @@ def initialize_services():
         device="cpu"
     )
     
-    vector_store = FAISSVectorStore(
+    # Load PRIMARY index (implementation-focused)
+    primary_vector_store = FAISSVectorStore(
         embedding_dim=embedding_provider.embedding_dim,
         index_type=config.faiss_index_type,
-        index_path=config.faiss_index_path,
-        id_mapping_path=config.faiss_id_mapping_path,
+        index_path=config.data_dir / "faiss" / "primary_index.faiss",
+        id_mapping_path=config.data_dir / "faiss" / "primary_id_mapping.json",
     )
     
-    if config.faiss_index_path.exists():
-        print(f"Loading existing index...", file=sys.stderr)
-        try:
-            vector_store.load()
-            print(f"Loaded index with {vector_store.size} vectors", file=sys.stderr)
-        except Exception as e:
-            print(f"Warning: Could not load index: {e}", file=sys.stderr)
+    # Load SECONDARY index (other content)
+    secondary_vector_store = FAISSVectorStore(
+        embedding_dim=embedding_provider.embedding_dim,
+        index_type=config.faiss_index_type,
+        index_path=config.data_dir / "faiss" / "secondary_index.faiss",
+        id_mapping_path=config.data_dir / "faiss" / "secondary_id_mapping.json",
+    )
+    
+    primary_path = config.data_dir / "faiss" / "primary_index.faiss"
+    secondary_path = config.data_dir / "faiss" / "secondary_index.faiss"
+    
+    if not primary_path.exists():
+        print("Error: No PRIMARY index found. Run ingestion first:", file=sys.stderr)
+        print("  python scripts/ingest_transcripts.py", file=sys.stderr)
+        raise RuntimeError("PRIMARY index not found")
+    
+    print("Loading PRIMARY index...", file=sys.stderr)
+    primary_vector_store.load()
+    print(f"Loaded {primary_vector_store.size} vectors from PRIMARY", file=sys.stderr)
+    
+    if secondary_path.exists():
+        print("Loading SECONDARY index...", file=sys.stderr)
+        secondary_vector_store.load()
+        print(f"Loaded {secondary_vector_store.size} vectors from SECONDARY", file=sys.stderr)
     else:
-        print("No existing index found", file=sys.stderr)
+        print("No SECONDARY index found (using PRIMARY only)", file=sys.stderr)
+        secondary_vector_store = None
     
     retrieval_service = RetrievalService(
         repository=repository,
         embedding_provider=embedding_provider,
-        vector_store=vector_store,
+        primary_vector_store=primary_vector_store,
+        secondary_vector_store=secondary_vector_store,
         min_similarity_threshold=config.min_similarity_threshold,
     )
     

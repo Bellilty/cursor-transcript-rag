@@ -91,15 +91,26 @@ cp cursor-integration/rules/conversation-rag.mdrule ~/.cursor/rules/
 
 Restart Cursor to load the MCP server and rule.
 
-## Step 7: Test It!
+## Step 7: Test It
 
-In Cursor Agent chat, type:
+Open a new Cursor Agent chat and use a direct MCP-first prompt:
 
 ```
-/rag what did we discuss about embedding models?
+Call search_conversation_history now.
+Answer only from that tool.
+Query: how did we create this Cursor transcript RAG?
 ```
 
-The agent should search your conversation history and provide relevant context!
+If Cursor shows a tool call for `search_conversation_history`, the MCP integration is working.
+
+Alternative test queries:
+```
+Use search_conversation_history first.
+Do not answer from repository files or README unless the tool returns nothing.
+Query: what embedding model did we choose?
+```
+
+**Note:** The MCP tool name is `search_conversation_history`, not a `/rag` slash command. Results quality depends on query phrasing.
 
 ## Troubleshooting
 
@@ -141,10 +152,17 @@ Common issues:
 
 ### Empty Search Results
 
-1. Check if index exists:
+1. Check if indexes exist:
 
 ```bash
-ls -lh data/faiss/index.faiss
+ls -lh data/faiss/
+```
+
+Or check specific index files:
+
+```bash
+ls -lh data/faiss/primary_index.faiss
+ls -lh data/faiss/secondary_index.faiss
 ```
 
 2. If missing, re-run ingestion:
@@ -214,20 +232,23 @@ python scripts/rebuild_index.py
 ### Search Previous Decisions
 
 ```
-/rag what database did we choose and why?
+Use search_conversation_history with query: "what database did we choose and why?"
 ```
 
 ### Find Implementation Details
 
 ```
-/rag how did we implement the chunking service?
+Use search_conversation_history with query: "how did we implement the chunking service?"
 ```
 
 ### Multilingual Search
 
 ```
-/rag comment avons-nous implémenté l'embedding?
-/rag איך יישמנו את מערכת החיפוש?
+Use search_conversation_history with query: "comment avons-nous implémenté l'embedding?"
+```
+
+```
+Use search_conversation_history with query: "איך יישמנו את מערכת החיפוש?"
 ```
 
 ### Cross-Project Search
@@ -274,8 +295,9 @@ pip install faiss-gpu
 You now have:
 - ✅ Local conversation history RAG system
 - ✅ Multilingual search (Hebrew/French/English)
-- ✅ MCP integration with Cursor
-- ✅ `/rag` command working
+- ✅ MCP tool available in Cursor
+- ✅ Raw conversation-history search working from Agent chat
+- ⚠️ Retrieval quality still depends on query phrasing
 
 Total setup time: **~5 minutes** (plus model download)
 
